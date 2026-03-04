@@ -16,8 +16,14 @@
 - [Code Architecture](#-code-architecture)
 - [Roadmap](#-roadmap)
 - [Contributing](#-contributing)
+- [Documentação](https://ige-122483.github.io/Battleship2/)
+
 
 ---
+
+## 📚 Documentação
+[Ver documentação Javadoc](https://ige-122483.github.io/Battleship2/)
+
 
 ## 🎯 Project Overview
 This project serves as a template and reference for students learning **Object-Oriented Programming (OOP)** and **Software Quality**. It simulates a battleship environment where players must strategically place ships and sink the enemy fleet.
