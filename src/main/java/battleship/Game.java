@@ -3,8 +3,6 @@ package battleship;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import java.sql.SQLException;
-
 
 import java.util.*;
 
@@ -205,6 +203,7 @@ public class Game implements IGame
 	 * and serializing them into a JSON string. The method ensures that the random shots are valid
 	 * and do not duplicate existing shots in the game or previous enemy moves. After generating
 	 * the shots, it applies the firing logic and serializes the result for further processing.
+	 *
 	 * @return A JSON string representing the list of randomly generated enemy shots.
 	 * @throws RuntimeException if there is an error during the JSON serialization of the shots.
 	 */
@@ -342,22 +341,6 @@ public class Game implements IGame
 		move.processEnemyFire(true);
 
 		alienMoves.add(move);
-		try {
-			DatabaseManager.createTable();
-			for (int i = 0; i < shots.size(); i++) {
-				IPosition shot = shots.get(i);
-				ShotResult result = shotResults.get(i);
-				String resultado = !result.valid() ? "INVÁLIDO" : result.repeated() ? "REPETIDO" : result.ship() != null ? "ACERTO" : "ÁGUA";
-				DatabaseManager.guardarJogada(
-						String.valueOf(shot.getClassicRow()),
-						String.valueOf(shot.getClassicColumn()),
-						resultado
-				);
-			}
-		} catch (SQLException e) {
-			System.out.println("Erro ao guardar jogada na base de dados: " + e.getMessage());
-		}
-
 
 		moveNumber++;
 	}
