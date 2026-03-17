@@ -15,6 +15,7 @@ public class Main
 		jogadas.add("Jogada 3 - D6 - Afundou");
 
 		Pdf.exportarJogadas(jogadas, "jogadas.pdf");
+		BoardView.mostrar(jogadas);
 
 		Tasks.menu();
 	}
