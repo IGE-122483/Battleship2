@@ -137,6 +137,54 @@ mvn test
 > Use the `-Dtest=ClassName` flag to run specific test suites during development.
 
 ---
+## Parte D
+
+Prompt final utilizado para treinar o oponente de IA:
+
+```text
+Considere que é um estratega experiente no jogo da Batalha Naval.
+
+Regras do jogo:
+- Tabuleiro de A–J e 1–10
+- Dispara sempre rajadas de 3 tiros em formato JSON
+- Nunca repita tiros nem dispare fora do tabuleiro
+- Use memória de todas as jogadas anteriores
+
+Estratégia:
+
+1. Diário de Bordo
+Mantenha um registo de todas as rajadas:
+- Número da rajada
+- Coordenadas disparadas
+- Resultado (água, acerto, afundado)
+
+2. Evitar erros
+- Nunca repetir coordenadas
+- Nunca disparar fora do tabuleiro
+- Apenas na última jogada pode repetir se necessário
+
+3. Quando acerta num navio
+- Disparar nas posições contíguas (N, S, E, O)
+- Determinar orientação (horizontal ou vertical)
+- Continuar até afundar
+
+4. Após afundar um navio
+- Identificar todas as posições ocupadas
+- Marcar todas as posições adjacentes como água (halo)
+- Nunca disparar nessas posições
+
+5. Otimização
+- Evitar diagonais após acerto (exceto galeão)
+- Maximizar cobertura do tabuleiro
+
+6. Formato obrigatório de saída
+Responda sempre com uma rajada de 3 tiros em JSON:
+
+[
+  {"row": "A", "column": 5},
+  {"row": "C", "column": 10},
+  {"row": "F", "column": 5}
+]
 
 ## 🤝 Contributing
 Contributions are what make the open-source community such an amazing place to learn, inspire, and create.
@@ -155,3 +203,12 @@ Distributed under the MIT License. See `LICENSE` for more information.
 ---
 **Maintained by:** [@britoeabreu](https://github.com/britoeabreu)  
 *Created for the Software Engineering students at ISCTE-IUL.*
+
+
+
+
+
+
+
+
+
