@@ -1,0 +1,39 @@
+# IGE-122464 - Guilherme Joaquim
+# Code Smell: Long Method (Martin Fowler)
+# Deteta métodos com mais de 30 linhas de código (LOC >= 30)
+# Baseado em: Object-Oriented Metrics in Practice (Lanza & Marinescu)
+
+name: Detect Long Method Code Smell
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  detect-long-method:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Run Qodana for JVM
+        uses: JetBrains/qodana-action@v2023.3
+        with:
+          args: --profile-name,qodana.recommended
+        env:
+          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
+
+      - name: Upload Qodana Report
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: qodana-long-method-report
+          path: ${{ runner.temp }}/qodana/results
