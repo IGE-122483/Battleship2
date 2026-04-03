@@ -1,0 +1,23 @@
+# IGE-122471 - Filipe Santos
+name: Detect Long Parameter List Code Smell
+
+on:
+  push:
+    branches: [ "main", "feature/us03-pdf" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  qodana:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Qodana Scan
+        uses: JetBrains/qodana-action@v2024.3
+        with:
+          args: --show-report
+        env:
+          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
