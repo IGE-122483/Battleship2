@@ -1,0 +1,25 @@
+# IGE-110738 - Nicholas Lobato - God Class detection
+name: Qodana Code Quality
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+jobs:
+  qodana:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+      - name: Build with Maven
+        run: mvn clean install -DskipTests
+      - name: Run Qodana JVM
+        uses: JetBrains/qodana-action@v2024.1
+        with:
+          linter: jetbrains/qodana-jvm
+        env:
+          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
