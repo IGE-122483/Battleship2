@@ -1,0 +1,10 @@
+# IGE-110738 - Nicholas Lobato - God Class detection
+version: "1.0"
+profile:
+  name: qodana.recommended
+include:
+  - name: ClassComplexity
+  - name: GodClass
+failureConditions:
+  severityThresholds:
+    any: 0
