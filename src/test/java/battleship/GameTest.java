@@ -1,6 +1,8 @@
 package battleship;
 
 import java.util.List;
+import java.util.Scanner;
+
 
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -99,5 +101,36 @@ public class GameTest {
 		ship2.sink();
 		assertEquals(1, game.getRemainingShips(), "Remaining ships count should be 1 after sinking one of two ships.");
 	}
+	@Test
+	@DisplayName("readEnemyFire1 - deve lançar exceção quando a posição está incompleta")
+	void readEnemyFire1() {
+		Scanner in = new Scanner("A");
 
+		assertThrows(IllegalArgumentException.class,
+				() -> game.readEnemyFire(in),
+				"Erro: era esperada IllegalArgumentException para posição incompleta.");
+	}
+
+	@Test
+	@DisplayName("readEnemyFire2 - deve lançar exceção quando não são dadas exatamente 3 posições")
+	void readEnemyFire2() {
+		Scanner in = new Scanner("A1 B2");
+
+		assertThrows(IllegalArgumentException.class,
+				() -> game.readEnemyFire(in),
+				"Erro: era esperada IllegalArgumentException quando o número de posições é diferente de 3.");
+	}
+
+	@Test
+	@DisplayName("fireShots1 - deve lançar exceção quando a lista não tem exatamente 3 tiros")
+	void fireShots1() {
+		List<IPosition> shots = List.of(
+				new Position(0, 0),
+				new Position(1, 1)
+		);
+
+		assertThrows(IllegalArgumentException.class,
+				() -> game.fireShots(shots),
+				"Erro: era esperada IllegalArgumentException quando a lista de tiros não tem exatamente 3 posições.");
+	}
 }
