@@ -28,8 +28,11 @@ public class Pdf {
     }
 
     private static void adicionarCabecalho(Document document) throws Exception {
-        document.add(new com.lowagie.text.Paragraph("Historico de Jogadas"));
-        document.add(new com.lowagie.text.Paragraph(" "));
+        String titulo = "Historico de Jogadas";
+        com.lowagie.text.Paragraph linhaEmBranco = new com.lowagie.text.Paragraph(" ");
+
+        document.add(new com.lowagie.text.Paragraph(titulo));
+        document.add(linhaEmBranco);
     }
 
     private static void adicionarJogadasAoDocumento(Document document, List<String> jogadas) throws Exception {
