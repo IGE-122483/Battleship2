@@ -32,10 +32,9 @@ public class Pdf {
 
     private static void adicionarCabecalho(Document document) throws DocumentException {
         String titulo = "Historico de Jogadas";
-        Paragraph linhaEmBranco = new Paragraph(" ");
 
         document.add(new Paragraph(titulo));
-        document.add(linhaEmBranco);
+        document.add(new Paragraph(" "));
     }
 
     private static void adicionarJogadasAoDocumento(Document document, List<String> jogadas) throws DocumentException {
