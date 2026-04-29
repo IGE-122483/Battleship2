@@ -1,8 +1,11 @@
 package battleship;
 
 import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Paragraph;
 import com.lowagie.text.pdf.PdfWriter;
 
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.List;
 
@@ -15,29 +18,29 @@ public class Pdf {
             adicionarJogadasAoDocumento(document, jogadas);
             fecharDocumento(document);
             System.out.println("PDF criado com sucesso!");
-        } catch (Exception e) {
+        } catch (DocumentException | FileNotFoundException e) {
             e.printStackTrace();
         }
     }
 
-    private static Document criarDocumento(String nomeFicheiro) throws Exception {
+    private static Document criarDocumento(String nomeFicheiro) throws DocumentException, FileNotFoundException {
         Document document = new Document();
         PdfWriter.getInstance(document, new FileOutputStream(nomeFicheiro));
         document.open();
         return document;
     }
 
-    private static void adicionarCabecalho(Document document) throws Exception {
+    private static void adicionarCabecalho(Document document) throws DocumentException {
         String titulo = "Historico de Jogadas";
-        com.lowagie.text.Paragraph linhaEmBranco = new com.lowagie.text.Paragraph(" ");
+        Paragraph linhaEmBranco = new Paragraph(" ");
 
-        document.add(new com.lowagie.text.Paragraph(titulo));
+        document.add(new Paragraph(titulo));
         document.add(linhaEmBranco);
     }
 
-    private static void adicionarJogadasAoDocumento(Document document, List<String> jogadas) throws Exception {
+    private static void adicionarJogadasAoDocumento(Document document, List<String> jogadas) throws DocumentException {
         for (String jogada : jogadas) {
-            document.add(new com.lowagie.text.Paragraph(jogada));
+            document.add(new Paragraph(jogada));
         }
     }
 
