@@ -27,6 +27,12 @@ class PdfContentWriter {
     }
 
     void adicionarJogadasSeExistirem(Document document, List<String> jogadas) throws DocumentException {
-        adicionarJogadasAoDocumento(document, jogadas);
+        if (temJogadas(jogadas)) {
+            adicionarJogadasAoDocumento(document, jogadas);
+        }
+    }
+
+    boolean temJogadas(List<String> jogadas) {
+        return !jogadas.isEmpty();
     }
 }
