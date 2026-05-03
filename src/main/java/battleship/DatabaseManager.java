@@ -33,17 +33,5 @@ public class DatabaseManager {
         conn.close();
     }
 
-    public static void listarJogadas() throws SQLException {
-        Connection conn = getConnection();
-        ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM jogadas");
-        while (rs.next()) {
-            System.out.println("Jogada #" + rs.getInt("id") +
-                    " | Linha: " + rs.getString("linha") +
-                    " | Coluna: " + rs.getString("coluna") +
-                    " | Resultado: " + rs.getString("resultado") +
-                    " | " + rs.getString("timestamp"));
-        }
-        conn.close();
-    }
 }
 
