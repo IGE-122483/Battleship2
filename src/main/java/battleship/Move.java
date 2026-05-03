@@ -196,4 +196,17 @@ public class Move implements IMove {
 
 		return jsonString;
 	}
+	public static String jsonShots(List<IPosition> shots) {
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.enable(SerializationFeature.INDENT_OUTPUT);
+		try {
+			List<String> shotStrings = new ArrayList<>();
+			for (IPosition shot : shots) {
+				shotStrings.add(shot.toString());
+			}
+			return mapper.writeValueAsString(shotStrings);
+		} catch (JsonProcessingException e) {
+			throw new RuntimeException("Erro ao serializar os tiros", e);
+		}
+	}
 }
