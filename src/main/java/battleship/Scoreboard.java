@@ -32,7 +32,8 @@ public class Scoreboard {
 
     private static void saveScoreToFile(int shots, String result) {
         List<Score> scores = loadScores();
-        String date = LocalDateTime.now().format(FORMATTER);
+        String currentDate = LocalDateTime.now().format(FORMATTER);
+        String date = currentDate;
         scores.add(new Score(date, shots, result));
 
         ObjectMapper mapper = new ObjectMapper();
