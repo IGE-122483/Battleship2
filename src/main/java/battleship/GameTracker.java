@@ -9,6 +9,10 @@ public class GameTracker {
 
     public static void registarJogada(String jogada) {
         jogadas.add(jogada);
+        notificarVista();
+    }
+
+    private static void notificarVista() {
         BoardView.atualizar();
     }
 
@@ -18,6 +22,6 @@ public class GameTracker {
 
     public static void limparJogadas() {
         jogadas.clear();
-        BoardView.atualizar();
+        notificarVista();
     }
 }
