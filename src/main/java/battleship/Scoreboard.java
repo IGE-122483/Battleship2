@@ -61,7 +61,7 @@ public class Scoreboard {
      * Prints all scores to the console.
      */
     public static void listarJogadas() throws SQLException {
-        java.sql.Connection conn = DatabaseManager.getConnection();
+        java.sql.Connection conn = java.sql.DriverManager.getConnection("jdbc:sqlite:battleship_games.db");
         ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM jogadas");
         while (rs.next()) {
             System.out.println("Jogada #" + rs.getInt("id") +
