@@ -26,6 +26,11 @@ public class Scoreboard {
      * @param result game result (e.g. "Vitória" or "Desistência")
      */
     public static void saveScore(int shots, String result) {
+        git add .
+        saveScoreToFile(shots, result);
+    }
+
+    private static void saveScoreToFile(int shots, String result) {
         List<Score> scores = loadScores();
         String date = LocalDateTime.now().format(FORMATTER);
         scores.add(new Score(date, shots, result));
