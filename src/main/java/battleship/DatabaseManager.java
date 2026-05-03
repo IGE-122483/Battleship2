@@ -22,13 +22,13 @@ public class DatabaseManager {
         conn.close();
     }
 
-    public static void guardarJogada(String linha, String coluna, String resultado) throws SQLException {
+    public static void guardarJogada(JogadaData jogada) throws SQLException {
         Connection conn = getConnection();
         String sql = "INSERT INTO jogadas (linha, coluna, resultado) VALUES (?, ?, ?)";
         PreparedStatement pstmt = conn.prepareStatement(sql);
-        pstmt.setString(1, linha);
-        pstmt.setString(2, coluna);
-        pstmt.setString(3, resultado);
+        pstmt.setString(1, jogada.linha);
+        pstmt.setString(2, jogada.coluna);
+        pstmt.setString(3, jogada.resultado);
         pstmt.executeUpdate();
         conn.close();
     }

@@ -37,14 +37,14 @@ class DatabaseManagerTest {
     @Test
     @DisplayName("guardarJogada: jogada guardada sem erros")
     void guardarJogada() {
-        assertDoesNotThrow(() -> DatabaseManager.guardarJogada("A", "1", "água"),
+        assertDoesNotThrow(() -> DatabaseManager.guardarJogada(new JogadaData("A", "1", "água")),
                 "Erro: guardarJogada() não devia lançar exceção");
     }
 
     @Test
     @DisplayName("listarJogadas: lista jogadas sem erros")
     void listarJogadas() throws SQLException {
-        DatabaseManager.guardarJogada("B", "2", "hit");
+        DatabaseManager.guardarJogada(new JogadaData("B", "2", "hit"));
         assertDoesNotThrow(() -> DatabaseManager.listarJogadas(),
                 "Erro: listarJogadas() não devia lançar exceção");
     }
