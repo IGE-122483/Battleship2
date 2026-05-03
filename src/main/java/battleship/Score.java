@@ -12,7 +12,8 @@ public class Score {
     private String date;
     private int shotsFired
             ;
-    private String result;
+    private String gameResult
+            ;
 
     public Score() {}
 
