@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class Scoreboard {
 
-    private static final String SCORES_FILE = "data/scores.json";
+    private static final String SCORES_FILE_PATH = "data/scores.json";
     private static final DateTimeFormatter FORMATTER =
             DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
