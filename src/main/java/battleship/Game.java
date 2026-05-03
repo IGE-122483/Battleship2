@@ -348,11 +348,11 @@ public class Game implements IGame
 				IPosition shot = shots.get(i);
 				ShotResult result = shotResults.get(i);
 				String resultado = !result.valid() ? "INVÁLIDO" : result.repeated() ? "REPETIDO" : result.ship() != null ? "ACERTO" : "ÁGUA";
-				DatabaseManager.guardarJogada(
+				DatabaseManager.guardarJogada(new JogadaData(
 						String.valueOf(shot.getClassicRow()),
 						String.valueOf(shot.getClassicColumn()),
 						resultado
-				);
+				));
 			}
 		} catch (SQLException e) {
 			System.out.println("Erro ao guardar jogada na base de dados: " + e.getMessage());
