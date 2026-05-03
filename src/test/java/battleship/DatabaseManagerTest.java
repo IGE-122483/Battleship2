@@ -45,7 +45,7 @@ class DatabaseManagerTest {
     @DisplayName("listarJogadas: lista jogadas sem erros")
     void listarJogadas() throws SQLException {
         DatabaseManager.guardarJogada(new JogadaData("B", "2", "hit"));
-        assertDoesNotThrow(() -> DatabaseManager.listarJogadas(),
+        assertDoesNotThrow(() -> Scoreboard.listarJogadas(),
                 "Erro: listarJogadas() não devia lançar exceção");
     }
 }

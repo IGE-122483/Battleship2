@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import java.io.File;
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -58,6 +60,19 @@ public class Scoreboard {
     /**
      * Prints all scores to the console.
      */
+    public static void listarJogadas() throws SQLException {
+        java.sql.Connection conn = DatabaseManager.getConnection();
+        ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM jogadas");
+        while (rs.next()) {
+            System.out.println("Jogada #" + rs.getInt("id") +
+                    " | Linha: " + rs.getString("linha") +
+                    " | Coluna: " + rs.getString("coluna") +
+                    " | Resultado: " + rs.getString("resultado") +
+                    " | " + rs.getString("timestamp"));
+        }
+        conn.close();
+    }
+
     public static void printScoreboard() {
         List<Score> scores = loadScores();
         if (scores.isEmpty()) {
