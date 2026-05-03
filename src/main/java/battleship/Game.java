@@ -1,8 +1,5 @@
 package battleship;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import java.sql.SQLException;
 
 
@@ -38,7 +35,8 @@ public class Game implements IGame
 		for (IShip ship : fleet.getShips()) {
 			for (IPosition ship_pos : ship.getPositions())
 				map[ship_pos.getRow()][ship_pos.getColumn()] = SHIP_MARKER;
-			if (!ship.stillFloating())
+			boolean afundou = !ship.stillFloating();
+			if (afundou)
 				for (IPosition adjacent_pos : ship.getAdjacentPositions())
 					map[adjacent_pos.getRow()][adjacent_pos.getColumn()] = SHIP_ADJACENT_MARKER;
 		}
@@ -89,51 +87,6 @@ public class Game implements IGame
 			System.out.println("'" + SHOT_SHIP_MARKER + "'->Tiro certeiro, '" + SHOT_WATER_MARKER + "'->Tiro na água");
 		}
 		System.out.println();
-	}
-
-	/**
-	 * Serializes a list of shot positions into a JSON string. Each shot is represented
-	 * with its classic row and column values. The method uses the Jackson library for
-	 * JSON serialization.
-	 *
-	 * @param shots a list of shot positions to be serialized. Each position is represented
-	 *              by an implementation of the {@code IPosition} interface. The list must
-	 *              not be null.
-	 * @return a formatted JSON string containing the shot positions. Each shot includes
-	 *         its classic row and column.
-	 * @throws RuntimeException if an error occurs during JSON serialization.
-	 */
-	public static String jsonShots(List<IPosition> shots) {
-
-		assert shots != null;
-
-		// Serializar os tiros gerados em JSON usando a biblioteca Jackson
-		ObjectMapper objectMapper = new ObjectMapper();
-		objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
-
-		// 1. Create a simplified list containing only the desired data
-		List<Map<String, Object>> simplifiedShots = new ArrayList<>();
-		for (IPosition shot : shots) {
-			Map<String, Object> simplePos = new LinkedHashMap<>();
-			// We use getClassicRow() and getClassicColumn() based on your current JSON output
-			simplePos.put("row", String.valueOf(shot.getClassicRow()));
-			simplePos.put("column", shot.getClassicColumn());
-			simplifiedShots.add(simplePos);
-		}
-
-		String jsonString = null;
-		try {
-			// 2. Serialize the simplified list instead of the raw 'shots' list
-			jsonString = objectMapper.writeValueAsString(simplifiedShots);
-		} catch (JsonProcessingException e) {
-			throw new RuntimeException("Erro ao serializar o JSON", e);
-		}
-
-//		System.out.println(jsonString);
-//		System.out.println();
-
-		// Retornar o JSON
-		return jsonString;
 	}
 
 	//------------------------------------------------------------------
@@ -230,6 +183,19 @@ public class Game implements IGame
 		// Gerar coordenadas únicas até atingir o número definido por NUMBER_SHOTS
 
 		IPosition newShot = null;
+		gerarTiros(candidateShots, shots, newShot, random);
+
+		System.out.print("rajada ");
+		for (IPosition shot : shots)
+			System.out.print(shot + " ");
+		System.out.println();
+
+		this.fireShots(shots);
+
+		return Move.jsonShots(shots);
+	}
+
+	private static void gerarTiros(List<IPosition> candidateShots, List<IPosition> shots, IPosition newShot, Random random) {
 		if (candidateShots.size() >= Game.NUMBER_SHOTS)
 			while (shots.size() < Game.NUMBER_SHOTS) {
 				newShot = candidateShots.get(random.nextInt(candidateShots.size()));
@@ -245,15 +211,6 @@ public class Game implements IGame
 			while (shots.size() < Game.NUMBER_SHOTS)
 				shots.add(newShot);
 		}
-
-		System.out.print("rajada ");
-		for (IPosition shot : shots)
-			System.out.print(shot + " ");
-		System.out.println();
-
-		this.fireShots(shots);
-
-		return Game.jsonShots(shots);
 	}
 
 
@@ -305,7 +262,7 @@ public class Game implements IGame
 
 		this.fireShots(shots);
 
-		return Game.jsonShots(shots);
+		return Move.jsonShots(shots);
 	}
 
 	/**
@@ -342,6 +299,13 @@ public class Game implements IGame
 		move.processEnemyFire(true);
 
 		alienMoves.add(move);
+		guardarJogadasNaBD(shots, shotResults);
+
+
+		moveNumber++;
+	}
+
+	private static void guardarJogadasNaBD(List<IPosition> shots, List<ShotResult> shotResults) {
 		try {
 			DatabaseManager.createTable();
 			for (int i = 0; i < shots.size(); i++) {
@@ -357,9 +321,6 @@ public class Game implements IGame
 		} catch (SQLException e) {
 			System.out.println("Erro ao guardar jogada na base de dados: " + e.getMessage());
 		}
-
-
-		moveNumber++;
 	}
 
 	/**
@@ -393,10 +354,11 @@ public class Game implements IGame
 		{
 			ship.shoot(pos);
 			countHits++;
-			if (!ship.stillFloating()) {
+			boolean afundou = !ship.stillFloating();
+			if (afundou) {
 				countSinks++;
 			}
-			return new ShotResult(true, false, ship, !ship.stillFloating());
+			return new ShotResult(true, false, ship, afundou);
 		}
 	}
 
