@@ -6,8 +6,12 @@ public class DatabaseManager {
 
     private static final String DB_URL = "jdbc:sqlite:battleship_games.db";
 
+    static Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(DB_URL);
+    }
+
     public static void createTable() throws SQLException {
-        Connection conn = DriverManager.getConnection(DB_URL);
+        Connection conn = getConnection();
         String sql = "CREATE TABLE IF NOT EXISTS jogadas (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "linha TEXT," +
@@ -19,7 +23,7 @@ public class DatabaseManager {
     }
 
     public static void guardarJogada(String linha, String coluna, String resultado) throws SQLException {
-        Connection conn = DriverManager.getConnection(DB_URL);
+        Connection conn = getConnection();
         String sql = "INSERT INTO jogadas (linha, coluna, resultado) VALUES (?, ?, ?)";
         PreparedStatement pstmt = conn.prepareStatement(sql);
         pstmt.setString(1, linha);
@@ -30,7 +34,7 @@ public class DatabaseManager {
     }
 
     public static void listarJogadas() throws SQLException {
-        Connection conn = DriverManager.getConnection(DB_URL);
+        Connection conn = getConnection();
         ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM jogadas");
         while (rs.next()) {
             System.out.println("Jogada #" + rs.getInt("id") +
