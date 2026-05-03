@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class Scoreboard {
 
-    private static final String SCORES_FILE = "data/scores.json";
+    private static final String SCORES_FILE_PATH = "data/scores.json";
     private static final DateTimeFormatter FORMATTER =
             DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
@@ -26,8 +26,14 @@ public class Scoreboard {
      * @param result game result (e.g. "Vitória" or "Desistência")
      */
     public static void saveScore(int shots, String result) {
+        git add .
+        saveScoreToFile(shots, result);
+    }
+
+    private static void saveScoreToFile(int shots, String result) {
         List<Score> scores = loadScores();
-        String date = LocalDateTime.now().format(FORMATTER);
+        String currentDate = LocalDateTime.now().format(FORMATTER);
+        String date = currentDate;
         scores.add(new Score(date, shots, result));
 
         ObjectMapper mapper = new ObjectMapper();

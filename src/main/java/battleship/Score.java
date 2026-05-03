@@ -10,8 +10,10 @@ import java.time.LocalDateTime;
 public class Score {
 
     private String date;
-    private int shots;
-    private String result;
+    private int shotsFired
+            ;
+    private String gameResult
+            ;
 
     public Score() {}
 
